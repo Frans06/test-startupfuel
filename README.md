@@ -30,6 +30,12 @@ bun run dev
 
 ```
 
+## Quick Start docker-compose
+
+```bash
+docker compose up
+```
+
 ## Architecture consideration
 
 The client and server was built using some tools that were choose carefully for speeding up the development and to give it the best performance and design. Some of this tools are:
