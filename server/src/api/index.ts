@@ -309,64 +309,18 @@ export const generatePDFFile = async ({
   `;
   // Simplest pdf generator.
   const browser = await puppeteer.launch({
-    executablePath: "/usr/bin/chromium",
-    headless: "shell", // Use 'shell' mode for Puppeteer 24 (more stable than 'new')
     args: [
-      // Security flags (required for App Runner)
       "--no-sandbox",
       "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-
-      // Memory and process management
-      "--single-process",
-      "--memory-pressure-off",
-      "--max_old_space_size=4096",
-      "--disable-backgrounding-occluded-windows",
-      "--disable-renderer-backgrounding",
-      "--disable-background-timer-throttling",
-
-      // Disable problematic features
-      "--disable-gpu",
-      "--disable-gpu-sandbox",
-      "--disable-software-rasterizer",
-      "--disable-background-networking",
-      "--disable-default-apps",
-      "--disable-extensions",
-      "--disable-sync",
-      "--disable-translate",
-      "--hide-scrollbars",
-      "--mute-audio",
+      "--disable-dev-shm-usage", // Add this for App Runner
+      "--disable-gpu", // Add this for App Runner
       "--no-first-run",
-      "--safebrowsing-disable-auto-update",
-
-      // Crash reporting (disable completely)
-      "--disable-crashpad",
-      "--disable-crash-reporter",
-      "--disable-breakpad",
-      "--disable-logging",
-      "--silent",
-
-      // App Runner specific optimizations
-      "--disable-features=VizDisplayCompositor,AudioServiceOutOfProcess",
-      "--disable-ipc-flooding-protection",
-      "--disable-web-security",
-      "--disable-blink-features=AutomationControlled",
-
-      // User data directory
-      "--user-data-dir=/tmp/chrome-user-data",
-      "--data-path=/tmp/chrome-user-data",
-      "--homedir=/tmp",
-      "--disk-cache-dir=/tmp/chrome-cache",
-
-      // Viewport and display
-      "--window-size=1920,1080",
-      "--virtual-time-budget=30000",
+      "--no-zygote",
+      "--single-process", // Sometimes needed in containerized environments
     ],
-
-    // Additional Puppeteer options for App Runner
-    timeout: 30000,
-    protocolTimeout: 30000,
-    ignoreDefaultArgs: ["--disable-extensions", "--enable-automation"],
+    ...(process.env.NODE_ENV === "production" && {
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+    }),
   });
   const page = await browser.newPage();
   await page.setContent(htmlContent);

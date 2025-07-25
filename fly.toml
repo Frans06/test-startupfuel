@@ -1,0 +1,34 @@
+# fly.toml app configuration file generated for startupfuel on 2025-07-25T12:33:55-04:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'startupfuel'
+primary_region = 'ord'
+
+[build]
+
+[build.args]
+USER = "appuser"
+VITE_APP_URL = "https://startupfuel.fly.dev"
+VITE_SERVER_URL = "https://startupfuel.fly.dev"
+[env]
+
+DB_FILE_NAME = "/app/data/db.sqlite"
+APP_URL = "https://startupfuel.fly.dev"
+BETTER_AUTH_SECRET = "supersecretkey"
+BETTER_AUTH_URL = "https://startupfuel.fly.dev"
+PUPPETEER_EXECUTABLE_PATH = "/usr/bin/chromium"
+
+[http_service]
+internal_port = 3001
+force_https = true
+auto_stop_machines = 'stop'
+auto_start_machines = true
+min_machines_running = 0
+processes = ['app']
+
+[[vm]]
+memory = '1gb'
+cpu_kind = 'shared'
+cpus = 1

@@ -29,7 +29,7 @@ image:
 # Number of CPU units for the task.
 cpu: 1024
 # Amount of memory in MiB used by the task.
-memory: 4096
+memory: 2048
 
 # Connect your App Runner service to your environment's VPC.
 # network:
@@ -47,6 +47,7 @@ variables: # Pass environment variables as key value pairs.
   APP_URL: https://x29befcxtq.us-east-2.awsapprunner.com
   BETTER_AUTH_SECRET: supersecretkey
   BETTER_AUTH_URL: https://x29befcxtq.us-east-2.awsapprunner.com
+  PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
 #
 # tags:                         # Pass tags as key value pairs.
 #   project: project-name
