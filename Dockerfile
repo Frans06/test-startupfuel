@@ -1,28 +1,26 @@
 FROM node:24.4.1-slim AS base
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  chromium \
-  fonts-liberation \
-  libappindicator3-1 \
+
+RUN apt-get update && apt-get install -y \
+  wget \
+  gnupg \
+  ca-certificates \
+  procps \
+  libxss1 \
   libasound2 \
   libatk-bridge2.0-0 \
-  libcurl4 \
-  libdrm-dev \
-  libgbm-dev \
-  libgconf-2-4 \
-  libgtk-3-0 \
-  libnspr4 \
-  libnss3 \
+  libdrm2 \
   libxcomposite1 \
   libxdamage1 \
-  libxext6 \
-  libxfixes3 \
   libxrandr2 \
-  libxrender1 \
-  libxtst6 \
-  xdg-utils \
-  --no-install-recommends && \
-  rm -rf /var/lib/apt/lists/*
+  libgbm1 \
+  libgtk-3-0 \
+  libxkbcommon0 \
+  && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+  && apt-get update \
+  && apt-get install -y google-chrome-stable \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g bun
 WORKDIR /usr/src/app
@@ -31,7 +29,8 @@ WORKDIR /usr/src/app
 # then copy all (non-ignored) project files into the image
 FROM base AS prerelease
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+ENV CHROME_DEVEL_SANDBOX=/usr/lib/chromium-browser/chrome-sandbox
 COPY . .
 RUN bun install --frozen-lockfile
 ARG VITE_APP_URL
@@ -51,7 +50,9 @@ RUN mkdir -p /app/data && \
 # Set database path to the data directory
 ENV DB_FILE_NAME="/app/data/db.sqlite"
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+ENV CHROME_DEVEL_SANDBOX=/usr/lib/chromium-browser/chrome-sandbox
+
 # Copy files with proper ownership
 COPY --chown=appuser:appgroup entrypoint.sh .
 COPY --from=prerelease --chown=appuser:appgroup /usr/src/app/server ./server

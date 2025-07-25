@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { protectedProcedure } from "trpc";
 import puppeteer from "puppeteer";
 import { generateRandomString } from "utils";
-import path from "path";
+import path, { join } from "path";
 import { mkdir } from "fs/promises";
 import { existsSync } from "fs";
 import { writeFile } from "fs/promises";
@@ -309,9 +309,64 @@ export const generatePDFFile = async ({
   `;
   // Simplest pdf generator.
   const browser = await puppeteer.launch({
-    headless: true,
     executablePath: "/usr/bin/chromium",
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    headless: "shell", // Use 'shell' mode for Puppeteer 24 (more stable than 'new')
+    args: [
+      // Security flags (required for App Runner)
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+
+      // Memory and process management
+      "--single-process",
+      "--memory-pressure-off",
+      "--max_old_space_size=4096",
+      "--disable-backgrounding-occluded-windows",
+      "--disable-renderer-backgrounding",
+      "--disable-background-timer-throttling",
+
+      // Disable problematic features
+      "--disable-gpu",
+      "--disable-gpu-sandbox",
+      "--disable-software-rasterizer",
+      "--disable-background-networking",
+      "--disable-default-apps",
+      "--disable-extensions",
+      "--disable-sync",
+      "--disable-translate",
+      "--hide-scrollbars",
+      "--mute-audio",
+      "--no-first-run",
+      "--safebrowsing-disable-auto-update",
+
+      // Crash reporting (disable completely)
+      "--disable-crashpad",
+      "--disable-crash-reporter",
+      "--disable-breakpad",
+      "--disable-logging",
+      "--silent",
+
+      // App Runner specific optimizations
+      "--disable-features=VizDisplayCompositor,AudioServiceOutOfProcess",
+      "--disable-ipc-flooding-protection",
+      "--disable-web-security",
+      "--disable-blink-features=AutomationControlled",
+
+      // User data directory
+      "--user-data-dir=/tmp/chrome-user-data",
+      "--data-path=/tmp/chrome-user-data",
+      "--homedir=/tmp",
+      "--disk-cache-dir=/tmp/chrome-cache",
+
+      // Viewport and display
+      "--window-size=1920,1080",
+      "--virtual-time-budget=30000",
+    ],
+
+    // Additional Puppeteer options for App Runner
+    timeout: 30000,
+    protocolTimeout: 30000,
+    ignoreDefaultArgs: ["--disable-extensions", "--enable-automation"],
   });
   const page = await browser.newPage();
   await page.setContent(htmlContent);

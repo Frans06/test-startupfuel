@@ -5,7 +5,6 @@ services:
       args:
         VITE_APP_URL: http://localhost:3001
         VITE_SERVER_URL: http://localhost:3001
-    user: "appuser:appgroup"
     ports:
       - "3001:3001"
     environment:
