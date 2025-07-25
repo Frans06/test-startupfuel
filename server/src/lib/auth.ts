@@ -55,14 +55,14 @@ const seedReports = [
   {
     id: generateRandomString(),
     portfolioId: seedPortfolio.id,
-    period: "monthly",
+    period: "quarterly",
     generatedAt: new Date("2025-04-01"),
     summary: "Q1 2025 performance: +8.5%. Strong performance from TSLA.",
   },
   {
     id: generateRandomString(),
     portfolioId: seedPortfolio.id,
-    period: "monthly",
+    period: "quarterly",
     generatedAt: new Date("2025-07-01"),
     summary: "Q2 2025 performance: -2.1%. Market correction observed.",
   },
@@ -95,7 +95,11 @@ export const auth = betterAuth({
     after: createAuthMiddleware(async (ctx) => {
       if (ctx.path.startsWith("/sign-up")) {
         if (ctx.context.newSession?.user.id)
-          seedAccount(ctx.context.newSession?.user.id);
+          try {
+            await seedAccount(ctx.context.newSession?.user.id);
+          } catch (e) {
+            console.error("error seeding initial user", e);
+          }
       }
     }),
   },

@@ -67,6 +67,7 @@ app.get("*any", (_, res) => {
 });
 
 async function start() {
+  // Seeding some stock prices
   const existing = await db.select().from(stock).limit(1);
   if (!existing.length) {
     await db.insert(stock).values(seedStocks).onConflictDoNothing();

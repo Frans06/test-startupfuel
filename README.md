@@ -1,7 +1,8 @@
 # Startupfuel
 
 This project build 2 servers, the client in port 3000 and the server in the port 3001.
-[Demo](https://x29befcxtq.us-east-2.awsapprunner.com/)
+[Demo fly](https://startupfuel.fly.dev/portfolio) Working as expected
+[Demo AWS](https://x29befcxtq.us-east-2.awsapprunner.com/) Issue found on pdf generation with app runner environment.
 [Github](https://github.com/Frans06/test-startupfuel)
 
 ## Quick start
