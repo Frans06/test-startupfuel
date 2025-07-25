@@ -635,7 +635,7 @@ const AddDrawer = () => {
 
   const form = useForm({
     defaultValues: {
-      period: "monthly" as "yearly" | "monthly",
+      period: "quarterly" as "yearly" | "quarterly",
       portfolioId: "",
       summary: "",
     },
@@ -685,7 +685,7 @@ const AddDrawer = () => {
                   value={field.state.value}
                   onOpenChange={field.handleBlur}
                   onValueChange={(e) =>
-                    field.handleChange(e as "yearly" | "monthly")
+                    field.handleChange(e as "yearly" | "quarterly")
                   }
                 >
                   <SelectTrigger id="report-period">
@@ -694,8 +694,8 @@ const AddDrawer = () => {
                     />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="monthly">
-                      {t("reports.addDrawer.period.monthly")}
+                    <SelectItem value="quarterly">
+                      {t("reports.addDrawer.period.quarterly")}
                     </SelectItem>
                     <SelectItem value="yearly">
                       {t("reports.addDrawer.period.yearly")}
@@ -715,7 +715,7 @@ const AddDrawer = () => {
                   value={field.state.value}
                   onOpenChange={field.handleBlur}
                   onValueChange={(e) =>
-                    field.handleChange(e as "yearly" | "monthly")
+                    field.handleChange(e as "yearly" | "quarterly")
                   }
                 >
                   <SelectTrigger id="report-porfolio">

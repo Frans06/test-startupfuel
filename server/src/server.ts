@@ -27,7 +27,7 @@ app.use(
 
 app.all("/api/auth/*any", toNodeHandler(auth));
 
-app.get("/api/health", (req, res) => {
+app.get("/api/health", (_, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });
 });
 
@@ -62,7 +62,7 @@ const seedStocks = [
   },
 ];
 
-app.get("*any", (req, res) => {
+app.get("*any", (_, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 

@@ -46,6 +46,6 @@ export const signupValidator = z
 
 export const generateReportValidator = z.object({
   portfolioId: z.string(),
-  period: z.enum(["yearly", "monthly"]),
+  period: z.enum(["yearly", "quarterly"]),
   summary: z.string(),
 });

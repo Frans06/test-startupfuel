@@ -174,7 +174,7 @@ export const portfolioRouter = {
     .input(
       z.object({
         portfolioId: z.string(),
-        period: z.enum(["yearly", "monthly"]),
+        period: z.enum(["yearly", "quarterly"]),
         summary: z.string().nullish(),
       }),
     )
@@ -206,7 +206,7 @@ export const portfolioRouter = {
         const startDate =
           input.period === "yearly"
             ? new Date(now.getFullYear(), 0, 1)
-            : new Date(now.getFullYear(), now.getMonth(), 1);
+            : new Date(now.getFullYear(), now.getMonth() - 4, 1);
 
         const transactions = await db
           .select()
@@ -308,7 +308,11 @@ export const generatePDFFile = async ({
     </html>
   `;
   // Simplest pdf generator.
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    executablePath: "/usr/bin/chromium",
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   const page = await browser.newPage();
   await page.setContent(htmlContent);
 

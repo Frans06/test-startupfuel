@@ -10,8 +10,8 @@
     "dev": "bun run --filter \"app\" --filter \"server\" dev",
     "dev:app": "bun run --filter \"app\" dev",
     "dev:server": "bun run --filter \"server\" dev",
-    "build": "turbo run build",
-    "build:lib": "turbo run build:lib",
+    "start": "bun run --filter \"server\" start",
+    "build": "bun run --filter \"app\" build",
     "setup": "bun run  --filter server setup"
   },
   "devDependencies": {
