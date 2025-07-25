@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
+    "lib": ["ESNext", "DOM"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": true,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "useDefineForClassFields": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictFunctionTypes": true,
+    // React
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "target": "es6",
+    // Project conf
+    "baseUrl": "src",
+    "outDir": "dist",
+    "composite": false,
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../server"
+    }
+  ]
+}

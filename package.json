@@ -1,0 +1,35 @@
+{
+  "name": "starupfuel",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "server",
+    "app"
+  ],
+  "scripts": {
+    "dev": "bun run --filter \"app\" --filter \"server\" dev",
+    "dev:app": "bun run --filter \"app\" dev",
+    "dev:server": "bun run --filter \"server\" dev",
+    "build": "turbo run build",
+    "build:lib": "turbo run build:lib",
+    "setup": "bun run  --filter server setup"
+  },
+  "devDependencies": {
+    "drizzle-orm": "^0.44.3",
+    "@types/bun": "^1.2.19",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.15",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.4.16",
+    "better-sqlite3": "^12.2.0",
+    "concurrently": "^8.2.2",
+    "drizzle-kit": "^0.31.4",
+    "tailwindcss": "^4.1.11",
+    "tw-animate-css": "^1.3.5",
+    "typescript": "^5.2.2",
+    "vite": "^7.0.5"
+  }
+}
